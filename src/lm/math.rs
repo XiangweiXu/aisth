@@ -1,15 +1,15 @@
 type Float = f64;
 
-struct SquareMatrix<const N: u8> {
-    mut m: [[Float; N]; N],
+pub struct SquareMatrix<const N: usize> {
+    m: [[Float; N]; N],
 }
 
-impl<N> SquareMatrix<N> {
-    fn identity() -> Self {
-        let m = [[0.0; N]; N];
+impl<const N: usize> SquareMatrix<N> {
+    pub fn identity() -> Self {
+        let mut m = [[0.0; N]; N];
         for i in 0..N {
             for j in 0..N {
-                if (i == j) {
+                if i == j {
                     m[i][j] = 1.0;
                 } else {
                     m[i][j] = 0.0;
@@ -20,24 +20,26 @@ impl<N> SquareMatrix<N> {
         Self { m }
     }
 
-    static fn zero() -> Self {
+    pub fn zero() -> Self {
         Self { m: [[0.0; N]; N] }
     }
 
-    fn transpose(&self) {
+    pub fn transpose(&self) -> Self {
+        let mut m = [[0.0; N]; N];
         for i in 0..N {
             for j in 0..N {
-                self
+                m[i][j] = self[j][i];
             }
-        }        
+        }
+        Self { m }
     }
 }
 
-impl<N> std::ops::Index<u8> for SquareMatrix<N> {
+impl<const N: usize> std::ops::Index<usize> for SquareMatrix<N> {
     type Output = [Float; N];
 
-    fn index(&self, index: u8) -> &Self::Output {
-        self.m[index]
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.m[index]
     }
 }
 

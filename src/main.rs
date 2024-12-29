@@ -1,3 +1,7 @@
+use aisth::lm::math::SquareMatrix;
+
 fn main() {
-    println!("Hello, world!");
+    let m: SquareMatrix<4> = SquareMatrix::<4>::zero();
+
+    println!("{}", m[0][0]);
 }
